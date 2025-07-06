@@ -94,6 +94,7 @@ export const Pay = () => {
 
         console.log("Minting successful:", finalPayload);
         //onSuccess(finalPayload.transaction_id);
+        setTransactionId(finalPayload.transaction_id);
       } catch (error) {
         console.error("Error minting tokens:", error);
       } finally {

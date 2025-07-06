@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { Navigation } from '@/components/Navigation';
+//import { Navigation } from '@/components/Navigation';
 import { Page } from '@/components/PageLayout';
 
 export default async function TabsLayout({
@@ -18,9 +18,11 @@ export default async function TabsLayout({
   return (
     <Page>
       {children}
+      {/* Header is not needed in tabs layout, so we can remove it
       <Page.Footer className="px-0 fixed bottom-0 w-full bg-white">
         <Navigation />
       </Page.Footer>
+      */}
     </Page>
   );
 }
