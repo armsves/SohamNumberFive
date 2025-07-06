@@ -124,7 +124,7 @@ export const Pay = () => {
           >
             Pay
           </Button>
-
+          {/* 
           <Button
             onClick={onClickIncrement}
             disabled={buttonState === 'pending'}
@@ -134,6 +134,7 @@ export const Pay = () => {
           >
             Increment contract counter
           </Button>
+          */}
         </LiveFeedback>
       </div>
     );

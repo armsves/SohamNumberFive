@@ -8,6 +8,7 @@ import { worldchain } from 'viem/chains';
 import UserRegistryABI from '../../abi/UserRegistryABI.json'
 import { MiniKit } from '@worldcoin/minikit-js';
 import { Button } from '@worldcoin/mini-apps-ui-kit-react';
+import { FileUpload } from '../FileUpload';
 /**
  * Minikit is only available on client side. Thus user info needs to be rendered on client side.
  * UserInfo component displays user information including profile picture, username, and verification status.
@@ -34,7 +35,8 @@ export const UserInfo = () => {
         address: "0xCc8934e07Ed1b214076BFAA09C7404D6c60C5A2A",
         abi: UserRegistryABI,
         functionName: 'getUser',
-        args: [session?.data?.user?.username],
+        args: ["armsves2"],
+        //args: [session?.data?.user?.username],
       });
       setUserInfo(result);
       console.log('User info:', result);
@@ -74,34 +76,62 @@ export const UserInfo = () => {
   }
 
   return (
-    <div className="flex flex-row items-center justify-start gap-4 rounded-xl w-full border-2 border-gray-200 p-4">
-      <Marble src={session?.data?.user?.profilePictureUrl} className="w-14" />
-      <div className="flex flex-row items-center justify-center">
-        <span className="text-lg font-semibold capitalize">
-          {session?.data?.user?.username}
-        </span>
-        <br />
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4 rounded-xl w-full border-2 border-gray-200 p-6 bg-white shadow-sm">
+        {/* User Profile Section */}
+        <div className="flex flex-row items-center justify-start gap-4">
+          <Marble src={session?.data?.user?.profilePictureUrl} className="w-16 h-16" />
+          <div className="flex flex-col gap-1 flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-semibold capitalize text-gray-800">
+                {session?.data?.user?.username}
+              </span>
+              {session?.data?.user?.profilePictureUrl && (
+                <CircularIcon size="sm" className="ml-0">
+                  <CheckCircleSolid className="text-blue-600" />
+                </CircularIcon>
+              )}
+            </div>
+            <div className="flex flex-col gap-1 text-sm text-gray-600">
+              <span>
+                <span className="font-medium">Wallet:</span> {session?.data?.user?.walletAddress}
+              </span>
+              {userInfo && Array.isArray(userInfo) && userInfo.length > 0 && (
+                <div className="flex flex-col gap-1">
+                  <span>
+                    <span className="font-medium">Username:</span> {userInfo[0]}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">Image:</span>
+                    <Marble src={userInfo[1]} className="w-16 h-16" />
+                  </div>
+                  <span>
+                    {userInfo[2]}
+                    <span className="font-medium">Status:</span> {userInfo[2] ? 'Verified' : 'Not Verified'}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
-        <span className="text-lg font-semibold capitalize">
-          Wallet: {session?.data?.user?.walletAddress}
-          UserInfo: {userInfo}
-        </span>
-        {session?.data?.user?.profilePictureUrl && (
-          <CircularIcon size="sm" className="ml-0">
-            <CheckCircleSolid className="text-blue-600" />
-          </CircularIcon>
+        {/* Action Button Section - Only show if user is not registered */}
+        {(!userInfo || !Array.isArray(userInfo) || userInfo.length === 0) && (
+          <div className="flex justify-end">
+            <Button
+              onClick={onClickRegisterUser}
+              size="lg"
+              variant="primary"
+              className="px-6 py-2"
+            >
+              Register User
+            </Button>
+          </div>
         )}
       </div>
-      <Button
-        onClick={onClickRegisterUser}
-        //disabled={buttonState === 'pending'}
-        size="lg"
-        variant="primary"
-        className="w-full"
-      >
-        Register User
-      </Button>
-
+      
+      {/* Add the file upload component */}
+      <FileUpload />
     </div>
   );
 };
