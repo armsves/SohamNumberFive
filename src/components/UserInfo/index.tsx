@@ -35,8 +35,8 @@ export const UserInfo = () => {
         address: "0xCc8934e07Ed1b214076BFAA09C7404D6c60C5A2A",
         abi: UserRegistryABI,
         functionName: 'getUser',
-        args: ["armsves2"],
-        //args: [session?.data?.user?.username],
+        //args: ["armsves2"],
+        args: [session?.data?.user?.username],
       });
       setUserInfo(result);
       console.log('User info:', result);
